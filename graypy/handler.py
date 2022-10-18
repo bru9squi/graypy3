@@ -584,7 +584,14 @@ class GELFTruncatingChunker(BaseGELFChunker):
 class GELFUDPHandler(BaseGELFHandler, DatagramHandler):
     """GELF UDP handler"""
 
-    def __init__(self, host, port=12202, gelf_chunker=GELFWarningChunker(), sock_max_age=300, **kwargs):
+    def __init__(
+        self,
+        host,
+        port=12202,
+        gelf_chunker=GELFWarningChunker(),
+        sock_max_age=300,
+        **kwargs
+    ):
         """Initialize the GELFUDPHandler
 
         .. note::
@@ -616,7 +623,9 @@ class GELFUDPHandler(BaseGELFHandler, DatagramHandler):
     def makeSocket(self):
         self.sock_expire_time = time.monotonic() + self.sock_max_age
         sock = super().makeSocket()
-        sock.connect(self.address) # Performing a DNS lookup (if needed) and opening a socket here.
+        sock.connect(
+            self.address
+        )  # Performing a DNS lookup (if needed) and opening a socket here.
         return sock
 
     def send_chunk(self, s):
@@ -632,7 +641,7 @@ class GELFUDPHandler(BaseGELFHandler, DatagramHandler):
                 self.sock.sendall(s)
             except OSError:
                 self.sock.close()
-                self.sock = None # so we can call createSocket next time
+                self.sock = None  # so we can call createSocket next time
 
     def send(self, s):
         if len(s) < self.gelf_chunker.chunk_size:

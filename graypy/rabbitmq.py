@@ -65,7 +65,9 @@ class GELFRabbitHandler(BaseGELFHandler, SocketHandler):
         self.url = url
         parsed = urlparse(url)
         if parsed.scheme not in ("amqp", "amqps"):
-            raise ValueError('invalid URL scheme (expected "amqp" or "amqps"): %s' % url)
+            raise ValueError(
+                'invalid URL scheme (expected "amqp" or "amqps"): %s' % url
+            )
         host = parsed.hostname or "localhost"
         port = _ifnone(parsed.port, 5672)
         self.virtual_host = (
@@ -78,7 +80,7 @@ class GELFRabbitHandler(BaseGELFHandler, SocketHandler):
             "virtual_host": self.virtual_host,
             "insist": False,
             "ssl": True if parsed.scheme == "amqps" or ssl else False,
-            "heartbeat": heartbeat
+            "heartbeat": heartbeat,
         }
         self.exchange = exchange
         self.exchange_type = exchange_type
