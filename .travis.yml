@@ -38,7 +38,7 @@ jobs:
     - stage: lint
       name: "black"
       python:
-        - 3.6
+        - 3.10
       before_install:
         - pip install black
       before_script: skip
