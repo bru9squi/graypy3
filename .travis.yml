@@ -43,7 +43,7 @@ jobs:
         - pip install black
       before_script: skip
       script:
-        - black --check setup.py tests graypy
+        - black --check --skip-string-normalization setup.py tests graypy
       after_script: skip
     - name: "pylint"
       python:
