@@ -33,12 +33,16 @@ jobs:
     - python: 3.6
     - python: 3.7
       dist: xenial
+    - python: 3.8
+      dist: xenial
+    - python: 3.9
+      dist: xenial
     - python: "pypy2.7-5.10.0"
     - python: "pypy3.5-5.10.0"
     - stage: lint
       name: "black"
       python:
-        - 3.10
+        - 3.9
       before_install:
         - pip install black
       before_script: skip
@@ -47,14 +51,14 @@ jobs:
       after_script: skip
     - name: "pylint"
       python:
-        - 3.6
+        - 3.9
       before_script: skip
       script:
         - python setup.py lint || exit $(($? & 35))
       after_script: skip
     - name: "twine check"
       python:
-        - 3.6
+        - 3.9
       before_install:
         - pip install docutils twine
       before_script:
@@ -65,14 +69,14 @@ jobs:
     - stage: build
       name: "sdist"
       python:
-        - 3.6
+        - 3.9
       before_script: skip
       script:
         - python setup.py sdist
       after_script: skip
     - name: "bdist_wheel"
       python:
-        - 3.6
+        - 3.9
       install:
         - pip install . wheel
       before_script: skip
@@ -81,7 +85,7 @@ jobs:
       after_script: skip
     - name: "sphinx docs"
       python:
-        - 3.6
+        - 3.9
       install:
         - pip install .[docs,amqp]
       before_script: skip
