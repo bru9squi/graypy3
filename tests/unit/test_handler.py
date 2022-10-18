@@ -25,7 +25,7 @@ from graypy.handler import BaseGELFHandler, GELFHTTPHandler, GELFTLSHandler
 from tests.helper import handler, logger, formatted_logger
 from tests.unit.helper import MOCK_LOG_RECORD, MOCK_LOG_RECORD_NAME
 
-UNICODE_REPLACEMENT = u"\ufffd"
+UNICODE_REPLACEMENT = u"\ufffd"  # pylint: disable=Unicode
 
 
 class TestClass(object):
@@ -64,10 +64,10 @@ def get_mock_send_arg(mock_send):
 @pytest.mark.parametrize(
     "message,expected",
     [
-        (u"\u20AC", u"\u20AC"),
-        (u"\u20AC".encode("utf-8"), u"\u20AC"),
-        (b"\xc3", UNICODE_REPLACEMENT),
-        (["a", b"\xc3"], ["a", UNICODE_REPLACEMENT]),
+        (u"\u20AC", u"\u20AC"),   # pylint: disable=Unicode
+        (u"\u20AC".encode("utf-8"), u"\u20AC"),   # pylint: disable=Unicode
+        (b"\xc3", UNICODE_REPLACEMENT),   # pylint: disable=Unicode
+        (["a", b"\xc3"], ["a", UNICODE_REPLACEMENT]),   # pylint: disable=Unicode
     ],
 )
 def test_pack(message, expected):
@@ -123,7 +123,7 @@ def test_broken_unicode_python2(logger, mock_send):
     # process
     logger.error(b"Broken \xde log message")
     decoded = get_mock_send_arg(mock_send)
-    assert u"Broken %s log message" % UNICODE_REPLACEMENT == decoded["short_message"]
+    assert u"Broken %s log message" % UNICODE_REPLACEMENT == decoded["short_message"]   # pylint: disable=Unicode
 
 
 @pytest.mark.skipif(sys.version_info[0] < 3, reason="python3 only")
@@ -157,7 +157,7 @@ def test_arbitrary_object(logger, mock_send):
 
 
 def test_message_to_pickle_serializes_datetime_objects_instead_of_blindly_repring_them(
-    logger, mock_send
+        logger, mock_send
 ):
     timestamp = datetime.datetime(2001, 2, 3, 4, 5, 6, 7)
     logger.error("Log message", extra={"ts": timestamp})
