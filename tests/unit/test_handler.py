@@ -123,9 +123,7 @@ def test_broken_unicode_python2(logger, mock_send):
     # process
     logger.error(b"Broken \xde log message")
     decoded = get_mock_send_arg(mock_send)
-    assert (
-        u"Broken %s log message" % UNICODE_REPLACEMENT == decoded["short_message"]
-    )
+    assert u"Broken %s log message" % UNICODE_REPLACEMENT == decoded["short_message"]
 
 
 @pytest.mark.skipif(sys.version_info[0] < 3, reason="python3 only")
